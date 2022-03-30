@@ -1,6 +1,7 @@
 from config import Config
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from random import choice
 import string
 from datetime import datetime
@@ -10,6 +11,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class ShortUrls(db.Model):
     id  = db.Column(db.Integer, primary_key=True)
@@ -49,3 +51,14 @@ def generate_short_id(num_of_chars):
     """Function to generate short_id of specified number of characters"""
     return ''.join(choice(string.ascii_lowercase+string.ascii_uppercase+string.digits) for _ in range(num_of_chars))
 
+@app.route('/<short_id>')
+def redirect_url(short_id):
+    link = ShortUrls.query.filter_by(short_id=short_id).first()
+    if link:
+        return redirect(link.original_url)
+    else:
+        flash('Invalid URL')
+        return redirect(url_for('index'))
+
+if __name__ == "__main__":
+    app.run(debug=True)
