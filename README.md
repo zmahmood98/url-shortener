@@ -15,14 +15,14 @@
 
 ## Bugs/Issues
 
-- [x] 
+- [x] After submitting the form if you refresh the page an error message appears
 
 
 ## Wins & Challenges
 
 ### Wins
 
-* 
+*  
 
 ### Challenges
 
