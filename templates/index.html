@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 class="text-center mb-3">URL Shortener</h1>
+    <h1 class="text-center mb-3 title">URL Shortener</h1>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
@@ -32,7 +32,7 @@
 
             {% if short_url %}
             <hr>
-            <span><a href="{{ short_url }}">{{ short_url }}</a></span>
+            <span><a class="url" href="{{ short_url }}">{{ short_url }}</a></span>
             {% endif %}
         </div>
         <div class="col-md-2"></div>

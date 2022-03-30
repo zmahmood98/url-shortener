@@ -5,7 +5,12 @@
 .container {
     padding-top: 100px;
     font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+}
+
+.title {
     font-weight: 900;
+    padding-bottom: 40px;
 }
 
 #resetButton {
@@ -18,5 +23,10 @@
 #submitButton {
     background-color: rgb(126, 167, 167);
     border: none;
+    margin-top: 20px;
 }
 
+.url {
+    color: rgb(126, 167, 167);
+    font-size: 25px;
+}
