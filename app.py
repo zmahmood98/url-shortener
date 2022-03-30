@@ -62,10 +62,6 @@ def redirect_url(short_id):
         return redirect(url_for('index'))
 
 
-@app.errorhandler(exceptions.BadRequest)
-def handle_400(err):
-    return render_template('errors/400.html')
-
 @app.errorhandler(exceptions.InternalServerError)
 def handle_500(err):
     return render_template('errors/500.html')
