@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from random import choice
 import string
 from datetime import datetime
+from werkzeug import exceptions
 
 
 app = Flask(__name__)
@@ -27,7 +28,7 @@ def index():
         short_id = request.form['custom_id']
 
         if short_id and ShortUrls.query.filter_by(short_id=short_id).first() is not None:
-            flash('Please enter different custom id!')
+            flash('Please enter a different custom id, that one is taken!')
             return redirect(url_for('index'))
 
         if not url:
@@ -57,8 +58,17 @@ def redirect_url(short_id):
     if link:
         return redirect(link.original_url)
     else:
-        flash('Invalid URL')
+        flash('That URL is not valid!')
         return redirect(url_for('index'))
+
+
+@app.errorhandler(exceptions.BadRequest)
+def handle_400(err):
+    return render_template('errors/400.html')
+
+@app.errorhandler(exceptions.InternalServerError)
+def handle_500(err):
+    return render_template('errors/500.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
