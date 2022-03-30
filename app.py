@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from random import choice
 import string
 from datetime import datetime
+from werkzeug import exceptions
 
 
 app = Flask(__name__)
@@ -59,6 +60,15 @@ def redirect_url(short_id):
     else:
         flash('Invalid URL')
         return redirect(url_for('index'))
+
+
+@app.errorhandler(exceptions.BadRequest)
+def handle_400(err):
+    return render_template('errors/400.html')
+
+@app.errorhandler(exceptions.InternalServerError)
+def handle_500(err):
+    return render_template('errors/500.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
