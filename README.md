@@ -15,7 +15,7 @@
 
 ## Bugs/Issues
 
-- [x] After submitting the form if you refresh the page an error message appears
+[] After submitting the form if you refresh the page an error message appears
 
 
 ## Wins & Challenges
