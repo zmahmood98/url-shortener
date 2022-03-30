@@ -11,16 +11,18 @@ from werkzeug import exceptions
 app = Flask(__name__)
 app.config.from_object(Config)
 
+# database setup
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+# database model
 class ShortUrls(db.Model):
     id  = db.Column(db.Integer, primary_key=True)
     original_url = db.Column(db.String(500), nullable=False)
     short_id = db.Column(db.String(20), nullable=False, unique=True)
     created_at = db.Column(db.DateTime(), default=datetime.now(), nullable=False)
 
-
+# main route
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -48,9 +50,7 @@ def index():
 
     return render_template('index.html')
 
-def generate_short_id(num_of_chars):
-    return ''.join(choice(string.ascii_lowercase+string.ascii_uppercase+string.digits) for _ in range(num_of_chars))
-
+# id route
 @app.route('/<short_id>')
 def redirect_url(short_id):
     link = ShortUrls.query.filter_by(short_id=short_id).first()
@@ -60,10 +60,16 @@ def redirect_url(short_id):
         flash('That URL is not valid!')
         return redirect(url_for('index'))
 
+# short id generator        
+def generate_short_id(num_of_chars):
+    return ''.join(choice(string.ascii_lowercase+string.ascii_uppercase+string.digits) for _ in range(num_of_chars))
 
+
+# error handler
 @app.errorhandler(exceptions.InternalServerError)
 def handle_500(err):
     return render_template('errors/500.html')
 
+# boiler plate
 if __name__ == "__main__":
     app.run(debug=True)
