@@ -28,7 +28,7 @@ def index():
         short_id = request.form['custom_id']
 
         if short_id and ShortUrls.query.filter_by(short_id=short_id).first() is not None:
-            flash('Please enter a different custom id, that one is taken!')
+            flash('Please enter a different custom ID, that one is taken!')
             return redirect(url_for('index'))
 
         if not url:
@@ -49,7 +49,6 @@ def index():
     return render_template('index.html')
 
 def generate_short_id(num_of_chars):
-    """Function to generate short_id of specified number of characters"""
     return ''.join(choice(string.ascii_lowercase+string.ascii_uppercase+string.digits) for _ in range(num_of_chars))
 
 @app.route('/<short_id>')
